@@ -38,6 +38,18 @@ app.get("/top", (req, res) => {
         })
     })
 })
+
+app.get("/db/:id", (req, res) => {
+db.serialize( () => {
+db.all("select id, 都道府県, 人口, 大学 from example where id=" + req.params.id + ";", (error, row) => {
+if( error ) {
+res.render('show', {mes:"エラーです"});
+}
+res.render('db', {data:row});
+})
+})
+})
+
 app.use(function(req, res, next) {
   res.status(404).send('ページが見つかりません');
 });
